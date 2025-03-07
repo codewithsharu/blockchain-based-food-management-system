@@ -1,0 +1,269 @@
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Admin Dashboard</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Admin Dashboard</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-primary p-2">
+                        <i class="fas fa-user-shield"></i> Admin: <%= user.name %>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1"><%= pendingUsers.length %></h3>
+                            <div>Pending Approvals</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-user-clock fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1"><%= approvedUsers.length %></h3>
+                            <div>Approved Users</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-user-check fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1"><%= approvedUsers.filter(u => u.role === 'restaurant').length %></h3>
+                            <div>Restaurants</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-utensils fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1"><%= approvedUsers.filter(u => u.role === 'charity').length %></h3>
+                            <div>Charities</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-hands-helping fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Pending Approvals -->
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-user-clock me-2"></i>Pending Approvals</h5>
+                        <span class="badge bg-light text-primary"><%= pendingUsers.length %> Pending</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <% if (pendingUsers.length === 0) { %>
+                        <div class="text-center py-5">
+                            <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                            <h5>No Pending Approvals</h5>
+                            <p class="text-muted">All user registrations have been processed</p>
+                        </div>
+                    <% } else { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>User Details</th>
+                                        <th>Contact</th>
+                                        <th>Role Info</th>
+                                        <th>Registration Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% pendingUsers.forEach(user => { %>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar me-3">
+                                                        <div class="avatar-text rounded-circle bg-primary text-white">
+                                                            <%= user.name.charAt(0).toUpperCase() %>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0"><%= user.name %></h6>
+                                                        <small class="text-muted"><%= user.email %></small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div><i class="fas fa-phone-alt me-2"></i><%= user.phone || 'N/A' %></div>
+                                                <% if(user.address) { %>
+                                                    <small class="text-muted"><i class="fas fa-map-marker-alt me-2"></i><%= user.address %></small>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-<%= user.role === 'restaurant' ? 'info' : 'warning' %>">
+                                                    <i class="fas <%= user.role === 'restaurant' ? 'fa-utensils' : 'fa-hands-helping' %> me-1"></i>
+                                                    <%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %>
+                                                </span>
+                                                <% if(user.restaurantName) { %>
+                                                    <div class="small mt-1"><%= user.restaurantName %></div>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <div><%= new Date(user.createdAt).toLocaleDateString() %></div>
+                                                <small class="text-muted"><%= new Date(user.createdAt).toLocaleTimeString() %></small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <form action="/admin/approve/<%= user._id %>" method="POST" class="me-2">
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="fas fa-check me-1"></i>Approve
+                                                        </button>
+                                                    </form>
+                                                    <form action="/admin/reject/<%= user._id %>" method="POST">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-times me-1"></i>Reject
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approved Users Summary -->
+        <div class="col-xl-4">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-user-check me-2"></i>Approved Users</h5>
+                        <span class="badge bg-light text-success"><%= approvedUsers.length %> Total</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <% if (approvedUsers.length === 0) { %>
+                        <div class="text-center py-5">
+                            <i class="fas fa-users-slash text-muted fa-4x mb-3"></i>
+                            <h5>No Approved Users</h5>
+                            <p class="text-muted">Start by approving pending registrations</p>
+                        </div>
+                    <% } else { %>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% approvedUsers.forEach(user => { %>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar me-2">
+                                                        <div class="avatar-text rounded-circle bg-success text-white">
+                                                            <%= user.name.charAt(0).toUpperCase() %>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="mb-0"><%= user.name %></div>
+                                                        <small class="text-muted"><%= user.email %></small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-<%= user.role === 'restaurant' ? 'info' : 'warning' %>">
+                                                    <i class="fas <%= user.role === 'restaurant' ? 'fa-utensils' : 'fa-hands-helping' %> me-1"></i>
+                                                    <%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check-circle me-1"></i>Active
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.avatar-text {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.card-header {
+    padding: 1rem;
+}
+</style> 

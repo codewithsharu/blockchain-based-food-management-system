@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2>Charity Dashboard</h2>
+        <p>Welcome, <%= user.name %></p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>Available Food Items</h4>
+            </div>
+            <div class="card-body">
+                <% if (availableFood.length === 0) { %>
+                    <p>No food items available</p>
+                <% } else { %>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Restaurant</th>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Expiry</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% availableFood.forEach(item => { %>
+                                    <tr>
+                                        <td><%= item.restaurant.restaurantName %></td>
+                                        <td><%= item.name %></td>
+                                        <td><%= item.quantity %></td>
+                                        <td><%= item.unit %></td>
+                                        <td><%= new Date(item.expiryDate).toLocaleDateString() %></td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm order-item" 
+                                                data-id="<%= item._id %>"
+                                                data-name="<%= item.name %>"
+                                                data-quantity="<%= item.quantity %>"
+                                                data-unit="<%= item.unit %>"
+                                                data-restaurant="<%= item.restaurant._id %>">
+                                                Order
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>My Orders</h4>
+            </div>
+            <div class="card-body">
+                <% if (myOrders.length === 0) { %>
+                    <p>No orders placed</p>
+                <% } else { %>
+                    <div class="list-group">
+                        <% myOrders.forEach(order => { %>
+                            <div class="list-group-item">
+                                <h6 class="mb-1">Order #<%= order._id %></h6>
+                                <p class="mb-1">Restaurant: <%= order.restaurant.restaurantName %></p>
+                                <p class="mb-1">Status: <span class="badge bg-<%= order.status === 'pending' ? 'warning' : order.status === 'accepted' ? 'success' : 'danger' %>"><%= order.status %></span></p>
+                                <p class="mb-1">Pickup: <%= new Date(order.pickupTime).toLocaleString() %></p>
+                                <% if (order.status === 'pending') { %>
+                                    <form action="/charity/order/cancel/<%= order._id %>" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Place Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm" action="/charity/order" method="POST">
+                    <input type="hidden" name="restaurant" id="restaurantId">
+                    <div class="mb-3">
+                        <label class="form-label">Item</label>
+                        <input type="text" class="form-control" id="itemName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="orderQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="orderQuantity" name="items[0][quantity]" required min="1">
+                        <small class="text-muted">Available: <span id="availableQuantity"></span> <span id="unit"></span></small>
+                    </div>
+                    <input type="hidden" name="items[0][foodItem]" id="foodItemId">
+                    <div class="mb-3">
+                        <label for="pickupTime" class="form-label">Pickup Time</label>
+                        <input type="datetime-local" class="form-control" id="pickupTime" name="pickupTime" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pickupAddress" class="form-label">Pickup Address</label>
+                        <textarea class="form-control" id="pickupAddress" name="pickupAddress" required rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="orderForm" class="btn btn-primary">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.order-item').forEach(button => {
+    button.addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+        document.getElementById('restaurantId').value = this.dataset.restaurant;
+        document.getElementById('itemName').value = this.dataset.name;
+        document.getElementById('availableQuantity').textContent = this.dataset.quantity;
+        document.getElementById('unit').textContent = this.dataset.unit;
+        document.getElementById('foodItemId').value = this.dataset.id;
+        document.getElementById('orderQuantity').max = this.dataset.quantity;
+        modal.show();
+    });
+});
+</script>

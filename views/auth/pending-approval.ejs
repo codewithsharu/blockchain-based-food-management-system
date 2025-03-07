@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-clock fa-4x text-warning"></i>
+                    </div>
+                    <h2 class="fw-bold mb-3">Account Pending Approval</h2>
+                    <p class="text-muted mb-4">Thank you for registering! Your account is currently under review by our admin team. This usually takes 24-48 hours.</p>
+                    
+                    <div class="alert alert-info" role="alert">
+                        <h5 class="alert-heading mb-2">What happens next?</h5>
+                        <p class="mb-0">
+                            1. Our admin team reviews your application<br>
+                            2. You'll receive an email when your account is approved<br>
+                            3. Once approved, you can access all platform features
+                        </p>
+                    </div>
+
+                    <div class="mt-4">
+                        <form action="/auth/logout" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted">Need help? Contact our support team</p>
+                <a href="mailto:support@example.com" class="btn btn-link">
+                    <i class="fas fa-envelope me-2"></i>support@example.com
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border-radius: 15px;
+}
+.alert {
+    border-radius: 10px;
+}
+</style> 

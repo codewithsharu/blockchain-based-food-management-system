@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="text-center mb-0">Admin Access</h4>
+                </div>
+                <div class="card-body">
+                    <% if(typeof errors != 'undefined' && errors.length > 0) { %>
+                        <% errors.forEach(function(error) { %>
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <%= error.msg %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                    <form action="/auth/admin-login" method="POST">
+                        <div class="mb-4">
+                            <label for="adminKey" class="form-label">Admin Access Key</label>
+                            <input type="password" class="form-control" id="adminKey" name="adminKey" required 
+                                placeholder="Enter admin access key">
+                            <small class="text-muted">Default key: ADMIN123</small>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Access Admin Panel</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/" class="text-decoration-none">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

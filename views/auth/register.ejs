@@ -1,0 +1,60 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center mb-0">Choose Your Registration Type</h3>
+                </div>
+                <div class="card-body">
+                    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <% errors.forEach(error => { %>
+                                <p class="mb-0"><%= error.msg %></p>
+                            <% }); %>
+                        </div>
+                    <% } %>
+
+                    <div class="row g-4">
+                        <!-- Restaurant Manager Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-primary">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+                                    <h4 class="card-title">Restaurant Manager</h4>
+                                    <p class="card-text">Register your restaurant to donate food and help those in need.</p>
+                                    <ul class="list-unstyled text-start">
+                                        <li><i class="fas fa-check text-success"></i> Post available food items</li>
+                                        <li><i class="fas fa-check text-success"></i> Manage donations</li>
+                                        <li><i class="fas fa-check text-success"></i> Track impact</li>
+                                    </ul>
+                                    <a href="/auth/register-restaurant" class="btn btn-primary btn-lg mt-3">Register as Restaurant</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charity Manager Card -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hands-helping fa-3x text-success mb-3"></i>
+                                    <h4 class="card-title">Charity Manager</h4>
+                                    <p class="card-text">Register your charity to receive food donations and help distribute them.</p>
+                                    <ul class="list-unstyled text-start">
+                                        <li><i class="fas fa-check text-success"></i> View available food</li>
+                                        <li><i class="fas fa-check text-success"></i> Request donations</li>
+                                        <li><i class="fas fa-check text-success"></i> Track distributions</li>
+                                    </ul>
+                                    <a href="/auth/register-charity" class="btn btn-success btn-lg mt-3">Register as Charity</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p class="mb-0">Already have an account? <a href="/auth/login">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
