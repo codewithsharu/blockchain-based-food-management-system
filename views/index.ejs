@@ -112,35 +112,12 @@
                 <h5 class="modal-title fw-bold">Join Our Platform</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body text-center p-4">
-                                <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
-                                <h5 class="fw-bold">Restaurant</h5>
-                                <p class="text-muted">Share excess food with those in need</p>
-                                <div class="mt-3">
-                                    <a href="/auth/register?type=restaurant" class="btn btn-primary w-100">Register Restaurant</a>
-                                    <a href="/auth/login" class="btn btn-link w-100 mt-2">Already Registered?</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-body text-center p-4">
-                                <i class="fas fa-hands-helping fa-3x text-primary mb-3"></i>
-                                <h5 class="fw-bold">Charity</h5>
-                                <p class="text-muted">Receive food donations for your cause</p>
-                                <div class="mt-3">
-                                    <a href="/auth/register?type=charity" class="btn btn-primary w-100">Register Charity</a>
-                                    <a href="/auth/login" class="btn btn-link w-100 mt-2">Already Registered?</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body text-center p-4">
+                <i class="fas fa-hand-holding-heart fa-3x text-primary mb-3"></i>
+                <h5 class="fw-bold mb-3">Make a Difference Today</h5>
+                <p class="text-muted mb-4">Join our community of restaurants and charities working together to reduce food waste and help those in need.</p>
+                <button onclick="window.location.href='/auth/register'" class="btn btn-primary btn-lg w-100">Get Started</button>
+                <button onclick="window.location.href='/auth/login'" class="btn btn-link w-100 mt-2">Already have an account? Login</button>
             </div>
         </div>
     </div>
